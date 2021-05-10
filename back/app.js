@@ -4,11 +4,13 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-
 var app = express();
 var mongoose = require('mongoose')
+
+var indexRouter = require('./routes/index');
+var loginRouter = require('./routes/login');
+var registerRouter = require('./routes/register');
+var actualWheatherRouter = require('./routes/actualWheather');
 
 mongoose.connect("mongodb+srv://admin:admin@cluster0.zs0eg.mongodb.net/APP?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true })
 
@@ -27,7 +29,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/login', loginRouter);
+app.use('/register', registerRouter);
+app.use('/actualWheather', actualWheatherRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
