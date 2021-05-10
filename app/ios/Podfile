@@ -12,6 +12,12 @@ target 'app' do
     :hermes_enabled => false
   )
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
+  pod 'ReactNativeGetLocation', :path => '../node_modules/react-native-get-location'
+
+  pod 'react-native-location', :path => '../node_modules/react-native-location'
+
   target 'appTests' do
     inherit! :complete
     # Pods for testing
