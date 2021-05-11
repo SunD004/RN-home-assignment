@@ -7,7 +7,7 @@ var { WEATHER_URL, WHEATHER_KEY } = require('../config')
 router.post('/', async function (req, res, next) {
   try {
     console.log('actualWheatherRouter body=', req.body)
-    const ret = await axios.get(`${WEATHER_URL}weather?lat=${req.body.latitude}&lon=${req.body.longitude}&appid=${WHEATHER_KEY}`)
+    const ret = await axios.get(`${WEATHER_URL}weather?lat=${req.body.latitude}&lon=${req.body.longitude}&appid=${WHEATHER_KEY}&units=metric`)
     if (_.isNull(ret.data.coord)) {
       res.status(400).send({ message: 'Failed to fetch weather, try again' })
     } else {
