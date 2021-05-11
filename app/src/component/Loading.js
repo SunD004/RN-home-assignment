@@ -9,6 +9,9 @@ const Loading = ({ wasOff }) => {
                 <View style={{ marginVertical: 20 }}>
                     <Text style={styles.text}>Your location was off </Text>
                     <Text style={styles.text}>Press 'Update' for get your location</Text></View>}
+            {!wasOff && <View style={{ marginVertical: 20 }}>
+                <Text style={styles.text}>We getting your position... </Text>
+            </View>}
         </View>
     );
 }

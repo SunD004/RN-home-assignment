@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, ImageBackground, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import RNLocation from 'react-native-location';
 import Geolocation from '@react-native-community/geolocation';
 import axios from 'axios'
@@ -11,13 +10,11 @@ import ConnectivityManager from 'react-native-connectivity-status'
 import { API_URL } from '../../config'
 
 import Loading from '../component/Loading'
+import Update from '../component/Update'
+import ActualWheather from '../component/ActualWheather'
 
 export default function HomeScreen({ navigation }) {
     const isFocused = useIsFocused()
-    const [position, setPosition] = useState({
-        latitude: -1,
-        longitude: -1
-    });
     const [city, setCity] = useState(null)
     const [loading, setLoading] = useState(false)
     const [wasOff, setWasOff] = useState(false)
@@ -50,10 +47,8 @@ export default function HomeScreen({ navigation }) {
             setWasOff(false)
             Geolocation.getCurrentPosition(
                 async (info) => {
-                    setPosition({ latitude: info.coords.latitude, longitude: info.coords.longitude })
-                    console.log('yeeah')
                     const userId = JSON.parse(await AsyncStorage.getItem('user'))
-                    await axios.post(`${API_URL}actualWheather`, { latitude: position.latitude, longitude: position.longitude, userId })
+                    await axios.post(`${API_URL}actualWheather`, { latitude: info.coords.latitude, longitude: info.coords.longitude, userId })
                         .then(res => {
                             console.log("res=", res.data)
                             setCity(res.data)
@@ -67,46 +62,28 @@ export default function HomeScreen({ navigation }) {
 
     }
 
+    const chooseBackgroundColor = () => {
+        const value = parseInt(city.main["feels_like"])
+        switch (true) {
+            case value <= 17:
+                return '#1976D2'
+            case value >= 18:
+                return '#fbc02d'
+            default:
+                return 'white'
+        }
+    }
+
     if (isFocused && (city === null && !loading) || (city != null && !city?.name && !loading) && !wasOff)
         getLocation();
 
     return !city?.name || loading ? <>
-        <TouchableOpacity
-            style={styles.horizontal}
-            onPress={getLocation}
-        >
-            <Icon style={{ marginTop: 5, marginHorizontal: 20 }} name="location-arrow" color={'black'} size={20} />
-            <Text style={styles.getCoordsText}>Update</Text>
-        </TouchableOpacity>
-        <Loading wasOff />
+        <Update func={getLocation} />
+        <Loading wasOff={wasOff} />
     </> : (
-        <View>
-            <TouchableOpacity
-                style={styles.horizontal}
-                onPress={getLocation}
-            >
-                <Icon style={{ marginTop: 5, marginHorizontal: 20 }} name="location-arrow" color={'black'} size={20} />
-                <Text style={styles.getCoordsText}>Update</Text>
-            </TouchableOpacity>
-            <Text>Latitude: {position.latitude} </Text>
-            <Text>Longitude: {position.longitude} </Text>
-            <Text>{JSON.stringify(city?.name)}</Text>
+        <View style={{ backgroundColor: chooseBackgroundColor(), height: '100%', display: 'flex', flexDirection: 'column' }}>
+            <Update func={getLocation} />
+            <ActualWheather city={city} />
         </View>
-
     );
 }
-
-const styles = StyleSheet.create({
-    horizontal: {
-        flexDirection: "column",
-        justifyContent: "flex-end",
-        alignItems: "center",
-        alignContent: 'center',
-        alignSelf: 'flex-end'
-    },
-    getCoordsText: {
-        fontSize: 10,
-        fontWeight: 'bold',
-        textAlign: 'center'
-    }
-});

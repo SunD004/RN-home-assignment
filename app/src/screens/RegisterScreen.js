@@ -5,7 +5,6 @@ import {
     TextInput,
     TouchableOpacity,
     StyleSheet,
-    Alert
 } from "react-native";
 import axios from 'axios'
 import Toast from 'react-native-toast-message';

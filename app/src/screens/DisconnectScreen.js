@@ -28,7 +28,7 @@ export default function DisconnectScreen({ navigation }) {
                     {
                         text: "Cancel",
                         onPress: () => setTimeout(() => {
-                            navigation.navigate("HomeScreen")
+                            navigation.goBack()
                         }, 100),
                         style: "cancel"
                     },
