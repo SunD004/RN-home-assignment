@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import RNLocation from 'react-native-location';
+import Toast from 'react-native-toast-message';
 
 import HomeScreen from './src/screens/HomeScreen'
 import SearchScreen from './src/screens/SearchScreen'
@@ -62,12 +62,6 @@ function MyTabs() {
 }
 
 export default function App() {
-  useEffect(() => {
-    RNLocation.configure({
-      distanceFilter: 100,
-    })
-  })
-
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{
@@ -83,6 +77,7 @@ export default function App() {
         />
         <Stack.Screen name="Tabs" component={MyTabs} />
       </Stack.Navigator>
+      <Toast ref={(ref) => Toast.setRef(ref)} />
     </NavigationContainer>
   );
 }

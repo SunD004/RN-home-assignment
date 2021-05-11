@@ -8,6 +8,7 @@ import {
     Alert
 } from "react-native";
 import axios from 'axios'
+import Toast from 'react-native-toast-message';
 
 import { API_URL } from '../../config'
 
@@ -32,38 +33,37 @@ export default function RegisterScreen({ navigation }) {
     const submitSignUp = async (e) => {
         e.preventDefault();
         try {
-            if (!state.email.match(regexEmail)) {
-                Alert.alert(
-                    "Email format incorrect",
-                    "Oups... Enter a valid email please",
-                    [
-                        { text: "i understand" }
-                    ]
-                );
+            if (state.email === '' || state.username === '' || state.password === '') {
+                Toast.show({
+                    type: 'error',
+                    text1: "Field is empty",
+                    text2: "Oups... One or mores fields is empty",
+                });
                 return
             }
-            if (state.email === '' || state.username === '' || state.password === '') {
-                Alert.alert(
-                    "Field is empty",
-                    "Oups... One or mores fields is empty",
-                    [
-                        { text: "i understand" }
-                    ]
-                );
+            if (!state.email.match(regexEmail)) {
+                Toast.show({
+                    type: 'error',
+                    text1: "Email format incorrect",
+                    text2: "Oups... Enter a valid email please",
+                });
                 return
             }
             await axios.post(`${API_URL}register`, { username: state.username, password: state.password, email: state.email })
                 .then(() => {
+                    Toast.show({
+                        type: 'success',
+                        text1: 'Register',
+                        text2: 'Successfully registered, you can now login ! 👋'
+                    });
                     navigation.navigate('Login')
                 })
         } catch (e) {
-            Alert.alert(
-                "Registration failed",
-                "Oups... " + e?.response?.data.message,
-                [
-                    { text: "try again" }
-                ]
-            );
+            Toast.show({
+                type: 'error',
+                text1: 'Registration failed',
+                text2: "Oups... " + e?.response?.data.message,
+            });
         }
     };
 

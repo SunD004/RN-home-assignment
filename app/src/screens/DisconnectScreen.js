@@ -1,7 +1,7 @@
 import React from 'react';
 import { useIsFocused } from '@react-navigation/native'
 import { View, Alert } from 'react-native';
-
+import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function DisconnectScreen({ navigation }) {
@@ -10,6 +10,11 @@ export default function DisconnectScreen({ navigation }) {
     const disconnect = async () => {
         await AsyncStorage.removeItem('user')
         setTimeout(() => {
+            Toast.show({
+                type: 'success',
+                text1: 'Disconnected',
+                text2: 'Good bye 👋'
+            });
             navigation.navigate("Login")
         }, 100)
     }

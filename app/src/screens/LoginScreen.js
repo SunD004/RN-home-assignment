@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-toast-message';
 
 import { API_URL } from '../../config'
 
@@ -37,15 +38,18 @@ export default function LoginScreen({ navigation }) {
                     userId = res.data
                 })
             await AsyncStorage.setItem('user', JSON.stringify(userId))
+            Toast.show({
+                type: 'success',
+                text1: 'Login',
+                text2: 'Successfully logged ! 👋'
+            });
             navigation.navigate('HomeScreen')
         } catch (e) {
-            Alert.alert(
-                "Authentification failed",
-                "Oups... Your login is incorrect",
-                [
-                    { text: "try again" }
-                ]
-            );
+            Toast.show({
+                type: 'error',
+                text1: 'Authentification failed',
+                text2: 'Oups... Your login is incorrect'
+            });
         }
     };
 
