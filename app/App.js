@@ -4,6 +4,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Toast from 'react-native-toast-message';
+import { ImageBackground } from 'react-native'
 
 import HomeScreen from './src/screens/HomeScreen'
 import SearchScreen from './src/screens/SearchScreen'
@@ -64,6 +65,7 @@ function MyTabs() {
 export default function App() {
   return (
     <NavigationContainer>
+
       <Stack.Navigator screenOptions={{
         headerShown: false
       }} initialRouteName="Tabs">
@@ -76,6 +78,7 @@ export default function App() {
           component={RegisterScreen}
         />
         <Stack.Screen name="Tabs" component={MyTabs} />
+
       </Stack.Navigator>
       <Toast ref={(ref) => Toast.setRef(ref)} />
     </NavigationContainer>

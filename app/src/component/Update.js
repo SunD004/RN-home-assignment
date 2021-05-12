@@ -10,7 +10,7 @@ const Update = ({ func }) => {
             style={styles.horizontal}
             onPress={func}
         >
-            <Icon style={{ marginTop: 5, marginHorizontal: 20 }} name="refresh" color={'black'} size={20} />
+            <Icon style={{ marginTop: 5, marginHorizontal: 20, opacity: 0.7, }} name="refresh" color={'#282828'} size={20} />
             <Text style={styles.getCoordsText}>Update</Text>
         </TouchableOpacity>
     );
@@ -18,6 +18,7 @@ const Update = ({ func }) => {
 
 const styles = StyleSheet.create({
     horizontal: {
+
         flexDirection: "column",
         justifyContent: "flex-end",
         alignItems: "center",
@@ -25,9 +26,11 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-end'
     },
     getCoordsText: {
+        opacity: 0.7,
         fontSize: 10,
         fontWeight: 'bold',
-        textAlign: 'center'
+        textAlign: 'center',
+        color: '#282828'
     }
 });
 

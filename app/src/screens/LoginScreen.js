@@ -5,7 +5,7 @@ import {
     TextInput,
     TouchableOpacity,
     StyleSheet,
-    Alert
+    ImageBackground
 } from "react-native";
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -40,7 +40,7 @@ export default function LoginScreen({ navigation }) {
             await AsyncStorage.setItem('user', JSON.stringify(userId))
             Toast.show({
                 type: 'success',
-                text1: 'Login',
+                text1: 'Welcome back',
                 text2: 'Successfully logged ! 👋'
             });
             navigation.navigate('HomeScreen')
@@ -54,35 +54,37 @@ export default function LoginScreen({ navigation }) {
     };
 
     return (
-        <View style={{ flex: 1, justifyContent: "center" }}>
-            <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 25, marginBottom: 20 }}>Welcome Back</Text>
-            <TextInput
-                style={styles.input}
-                onChangeText={(text) => handleChange(text, "username")}
-                value={state.username}
-                placeholder="Enter your username"
-                placeholderTextColor="#000"
-                textAlign={"center"}
-            />
-            <TextInput
-                style={styles.input}
-                onChangeText={(text) => handleChange(text, "password")}
-                value={state.password}
-                placeholder="Enter your password"
-                secureTextEntry={true}
-                textAlign={"center"}
-                placeholderTextColor="#000"
-            />
-            <TouchableOpacity
-                style={styles.submitButton}
-                onPress={checkLogin}
-            >
-                <Text style={styles.submitButtonText}>Login</Text>
-            </TouchableOpacity>
-            <View style={styles.horizontal}>
-                <Text>Don't have an account ?</Text><Text onPress={() => navigation.navigate('Register')} style={{ marginLeft: 2, fontWeight: 'bold' }}>Sign up</Text>
+        <ImageBackground source={require('../asset/bg.jpg')} style={{ flex: 1 }}>
+            <View style={{ flex: 1, justifyContent: "center" }}>
+                <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 25, marginBottom: 20 }}>Welcome Back 👋</Text>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={(text) => handleChange(text, "username")}
+                    value={state.username}
+                    placeholder="Enter your username"
+                    placeholderTextColor="#000"
+                    textAlign={"center"}
+                />
+                <TextInput
+                    style={styles.input}
+                    onChangeText={(text) => handleChange(text, "password")}
+                    value={state.password}
+                    placeholder="Enter your password"
+                    secureTextEntry={true}
+                    textAlign={"center"}
+                    placeholderTextColor="#000"
+                />
+                <TouchableOpacity
+                    style={styles.submitButton}
+                    onPress={checkLogin}
+                >
+                    <Text style={styles.submitButtonText}>Login</Text>
+                </TouchableOpacity>
+                <View style={styles.horizontal}>
+                    <Text>Don't have an account ?</Text><Text onPress={() => navigation.navigate('Register')} style={{ marginLeft: 2, fontWeight: 'bold' }}>Sign up</Text>
+                </View>
             </View>
-        </View>
+        </ImageBackground>
     );
 }
 

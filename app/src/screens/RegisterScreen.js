@@ -5,6 +5,7 @@ import {
     TextInput,
     TouchableOpacity,
     StyleSheet,
+    ImageBackground
 } from "react-native";
 import axios from 'axios'
 import Toast from 'react-native-toast-message';
@@ -67,43 +68,45 @@ export default function RegisterScreen({ navigation }) {
     };
 
     return (
-        <View style={{ flex: 1, justifyContent: "center" }}>
-            <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 25, marginBottom: 20 }}>Welcome !</Text>
-            <TextInput
-                style={styles.input}
-                onChangeText={(text) => handleChange(text, "username")}
-                value={state.username}
-                placeholder="Enter your username"
-                placeholderTextColor="#000"
-                textAlign={"center"}
-            />
-            <TextInput
-                style={styles.input}
-                onChangeText={(text) => handleChange(text, "email")}
-                value={state.email}
-                placeholder="Enter your email"
-                placeholderTextColor="#000"
-                textAlign={"center"}
-            />
-            <TextInput
-                style={styles.input}
-                onChangeText={(text) => handleChange(text, "password")}
-                value={state.password}
-                placeholder="Enter your password"
-                secureTextEntry={true}
-                textAlign={"center"}
-                placeholderTextColor="#000"
-            />
-            <TouchableOpacity
-                style={styles.submitButton}
-                onPress={submitSignUp}
-            >
-                <Text style={styles.submitButtonText}>Submit</Text>
-            </TouchableOpacity>
-            <View style={styles.horizontal}>
-                <Text>Already registered ?</Text><Text onPress={() => navigation.navigate('Login')} style={{ marginLeft: 2, fontWeight: 'bold' }}>Sign in</Text>
+        <ImageBackground source={require('../asset/bg.jpg')} style={{ flex: 1 }}>
+            <View style={{ flex: 1, justifyContent: "center" }}>
+                <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 25, marginBottom: 20 }}>Welcome 👋</Text>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={(text) => handleChange(text, "username")}
+                    value={state.username}
+                    placeholder="Enter your username"
+                    placeholderTextColor="#000"
+                    textAlign={"center"}
+                />
+                <TextInput
+                    style={styles.input}
+                    onChangeText={(text) => handleChange(text, "email")}
+                    value={state.email}
+                    placeholder="Enter your email"
+                    placeholderTextColor="#000"
+                    textAlign={"center"}
+                />
+                <TextInput
+                    style={styles.input}
+                    onChangeText={(text) => handleChange(text, "password")}
+                    value={state.password}
+                    placeholder="Enter your password"
+                    secureTextEntry={true}
+                    textAlign={"center"}
+                    placeholderTextColor="#000"
+                />
+                <TouchableOpacity
+                    style={styles.submitButton}
+                    onPress={submitSignUp}
+                >
+                    <Text style={styles.submitButtonText}>Submit</Text>
+                </TouchableOpacity>
+                <View style={styles.horizontal}>
+                    <Text>Already registered ?</Text><Text onPress={() => navigation.navigate('Login')} style={{ marginLeft: 2, fontWeight: 'bold' }}>Sign in</Text>
+                </View>
             </View>
-        </View>
+        </ImageBackground>
     );
 }
 

@@ -77,13 +77,15 @@ export default function HomeScreen({ navigation }) {
     if (isFocused && (city === null && !loading) || (city != null && !city?.name && !loading) && !wasOff)
         getLocation();
 
-    return !city?.name || loading ? <>
+    return !city?.name || loading ? <ImageBackground source={require('../asset/bg.jpg')} style={{ flex: 1 }}>
         <Update func={getLocation} />
         <Loading wasOff={wasOff} />
-    </> : (
-        <View style={{ backgroundColor: chooseBackgroundColor(), height: '100%', display: 'flex', flexDirection: 'column' }}>
+    </ImageBackground> : (
+        <ImageBackground source={require('../asset/bg.jpg')} style={{ flex: 1 }}>
+            {/*<View style={{ backgroundColor: 'white', height: '100%', display: 'flex', flexDirection: 'column' }}>*/}
             <Update func={getLocation} />
             <ActualWheather city={city} />
-        </View>
+            {/*</View>*/}
+        </ImageBackground>
     );
 }
