@@ -20,3 +20,11 @@ The goal of the developer exercise is to take a quick dive into a React Native t
 
 ---
 Bonus: GraphQL
+
+
+# How start the project
+1. in /back npm i && npm start
+2. in /app yarn && yarn react-native run-android
+3. Dependences: Redis in local (redis-server need to be launch)
+4. In localhost with real device u need to change the API_URL in app/config.js with your own ip (ifconfig | grep inet) and update the file "android/app/src/main/res/xml/network_security_config.xml", -> add your own ip. This step is necessary for call the local API with your device
+5. Project was developed with an android device
