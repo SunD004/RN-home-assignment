@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { View, ImageBackground, Alert } from 'react-native';
+import { ImageBackground, Alert, View, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import RNLocation from 'react-native-location';
-import Geolocation from '@react-native-community/geolocation';
+import Geolocation from 'react-native-geolocation-service';
 import axios from 'axios'
 import { useIsFocused } from '@react-navigation/native'
 import ConnectivityManager from 'react-native-connectivity-status'
+import GestureRecognizer from 'react-native-swipe-gestures';
 
 import { API_URL } from '../../config'
 
 import Loading from '../component/Loading'
 import Update from '../component/Update'
+import Share from '../component/Share'
 import ActualWheather from '../component/ActualWheather'
 
 export default function HomeScreen({ navigation }) {
@@ -50,7 +52,6 @@ export default function HomeScreen({ navigation }) {
                     const userId = JSON.parse(await AsyncStorage.getItem('user'))
                     await axios.post(`${API_URL}actualWheather`, { latitude: info.coords.latitude, longitude: info.coords.longitude, userId })
                         .then(res => {
-                            console.log("res=", res.data)
                             setCity(res.data)
                             setLoading(false)
                         })
@@ -82,10 +83,26 @@ export default function HomeScreen({ navigation }) {
         <Loading wasOff={wasOff} />
     </ImageBackground> : (
         <ImageBackground source={require('../asset/bg.jpg')} style={{ flex: 1 }}>
-            {/*<View style={{ backgroundColor: 'white', height: '100%', display: 'flex', flexDirection: 'column' }}>*/}
-            <Update func={getLocation} />
-            <ActualWheather city={city} />
-            {/*</View>*/}
+            <GestureRecognizer
+                onSwipeLeft={() => navigation.navigate('DisconnectScreen')}
+                onSwipeRight={() => navigation.navigate('SearchScreen')}
+                config={{
+                    velocityThreshold: 0.3,
+                    directionalOffsetThreshold: 80,
+                    gestureIsClickThreshold: 5
+                }}
+                style={{
+                    flex: 1,
+                }}
+            >
+                <ScrollView>
+                    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <Share city={city} />
+                        <Update func={getLocation} />
+                    </View>
+                    <ActualWheather city={city} />
+                </ScrollView>
+            </GestureRecognizer>
         </ImageBackground>
     );
 }

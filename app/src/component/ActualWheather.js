@@ -1,13 +1,23 @@
 
 import React from 'react';
-import { Text, Dimensions, StyleSheet, View, ImageBackground } from 'react-native';
+import { Text, StyleSheet, View, ScrollView } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
-import IconFeather from 'react-native-vector-icons/Feather';
 import IconMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import moment from 'moment';
 
 const ActualWheather = ({ city }) => {
-    console.log(city)
+
+    const renderDay = () => {
+        const currentDate = moment().format()
+        return city.daily.map((day, idx) => {
+            return (
+                <View key={idx} style={[styles.horizontal, { justifyContent: 'flex-start', paddingLeft: '20%' }]}>
+                    <Icon style={styles.icons} name="hand-o-right" color={"black"} size={20} />
+                    <Text style={styles.textCards}>{moment(currentDate).clone().add(idx + 1, 'days').format('ddd D')} {"   "} {day.feels_like.day}°C</Text>
+                </View>)
+        })
+    }
 
     const chooseIcon = () => {
         const value = parseInt(city.main["feels_like"])
@@ -21,34 +31,22 @@ const ActualWheather = ({ city }) => {
         }
     }
 
-    const chooseText = () => {
-        const value = parseInt(city.main["feels_like"])
-        switch (true) {
-            case value <= 17:
-                return 'Cloudly'
-            case value >= 1:
-                return 'Sunny'
-            default:
-                return 'Good weather'
-        }
-    }
-
     return (
         <>
-            <View style={[styles.horizontal, styles.leftBorder, { position: 'absolute', top: 10 }]}>
-                <Icon style={styles.icons} name="bell-o" color={"black"} size={20} />
+            <View style={[styles.horizontal, styles.leftBorder, { marginVertical: 20 }]}>
+                <IconMaterialCommunityIcons style={styles.icons} name="map-marker-outline" color={"black"} size={20} />
                 <Text style={styles.getCoordsText}>{city.sys.country}</Text>
             </View>
-            <View style={[styles.horizontal, styles.leftBorder, { alignSelf: 'center', borderTopRightRadius: 10, borderBottomLeftRadius: 10, borderBottomRightRadius: 0, marginTop: '15%' }]}>
-                <IconMaterialCommunityIcons style={styles.icons} name="map-marker-outline" color={"black"} size={25} />
+            <View style={[styles.horizontal, styles.leftBorder, { alignSelf: 'center', borderTopRightRadius: 10, borderBottomLeftRadius: 10, borderBottomRightRadius: 0, marginVertical: 20 }]}>
+                <IconMaterialCommunityIcons style={styles.icons} name="city-variant-outline" color={"black"} size={25} />
                 <Text style={styles.textCity}>{city.name}</Text>
             </View>
 
 
-            <View style={[styles.horizontal, { justifyContent: 'space-between', marginTop: '10%' }]}>
+            <View style={[styles.horizontal, { justifyContent: 'space-between', marginVertical: 20 }]}>
                 <View style={[styles.horizontal, styles.leftBorder]}>
                     <IconMaterialCommunityIcons style={styles.icons} name={chooseIcon()} color={"black"} size={20} />
-                    <Text style={styles.getCoordsText}>{chooseText()}</Text>
+                    <Text style={styles.getCoordsText}>{city.weather[0].main}</Text>
                 </View>
                 <View style={[styles.horizontal, styles.rightBorder]}>
                     <IconMaterialCommunityIcons style={styles.icons} name={'water-outline'} color={"black"} size={20} />
@@ -56,29 +54,36 @@ const ActualWheather = ({ city }) => {
                 </View>
             </View>
 
-            <View style={[styles.cardsRound, { width: "60%", alignSelf: 'center', marginTop: 50 }]}>
-                <View style={[styles.horizontal]}>
+
+            <View style={[styles.cardsRound, { width: "60%", alignSelf: 'center', marginVertical: 20, }]}>
+                <Text style={[styles.getCoordsText]}>Today {moment().format('dddd D')}</Text>
+                <View style={[styles.horizontal, { justifyContent: 'flex-start', paddingLeft: '20%' }]}>
                     <Icon style={styles.icons} name="hand-o-right" color={"black"} size={20} />
-                    <Text style={styles.getCoordsText}>Actual {city.main.temp}°C</Text>
+                    <Text style={styles.textCards}>Current{"  "}{city.main.temp}°C</Text>
                 </View>
 
-                <View style={[styles.horizontal]}>
+                <View style={[styles.horizontal, { justifyContent: 'flex-start', paddingLeft: '20%' }]}>
                     <Icon style={styles.icons} name="hand-o-right" color={"black"} size={20} />
-                    <Text style={styles.getCoordsText}>Feels Like {city.main["feels_like"]}°C</Text>
+                    <Text style={styles.textCards}>Feels{"  "}{city.main["feels_like"]}°C</Text>
                 </View>
 
-                <View style={[styles.horizontal]}>
+                <View style={[styles.horizontal, { justifyContent: 'flex-start', paddingLeft: '20%' }]}>
                     <Icon style={styles.icons} name="hand-o-right" color={"black"} size={20} />
-                    <Text style={styles.getCoordsText}>Max {city.main.temp_max}°C</Text>
+                    <Text style={styles.textCards}>Max{"  "}{city.main.temp_max}°C</Text>
                 </View>
 
-                <View style={[styles.horizontal]}>
+                <View style={[styles.horizontal, { justifyContent: 'flex-start', paddingLeft: '20%' }]}>
                     <Icon style={styles.icons} name="hand-o-right" color={"black"} size={20} />
-                    <Text style={styles.getCoordsText}>Min  {city.main.temp_min}°C</Text>
+                    <Text style={styles.textCards}>Min{"  "}{city.main.temp_min}°C</Text>
                 </View>
             </View>
 
-            <View style={[styles.cardsRound, { width: '70%', alignSelf: 'center', marginTop: 50, paddingTop: 5, paddingBottom: 5 }]}>
+            <View style={[styles.cardsRound, { width: "60%", alignSelf: 'center', marginVertical: 20, }]}>
+                <Text style={[styles.getCoordsText]}>Forecast daily</Text>
+                {renderDay()}
+            </View>
+
+            <View style={[styles.cardsRound, { width: '70%', alignSelf: 'center', marginVertical: 20, paddingTop: 5, paddingBottom: 5, }]}>
                 <View style={styles.horizontal}>
                     <Icon style={styles.icons} name="map-o" color={"black"} size={20} />
                     <Text style={styles.getCoordsText}>Latitude {city.coord.lat}</Text>
@@ -142,6 +147,15 @@ const styles = StyleSheet.create({
         opacity: 0.9,
         marginVertical: 5,
         fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontStyle: 'italic',
+        color: '#282828'
+    },
+    textCards: {
+        opacity: 0.9,
+        marginVertical: 5,
+        fontSize: 15,
         fontWeight: 'bold',
         textAlign: 'center',
         fontStyle: 'italic',

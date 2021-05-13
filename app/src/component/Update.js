@@ -18,12 +18,12 @@ const Update = ({ func }) => {
 
 const styles = StyleSheet.create({
     horizontal: {
-
         flexDirection: "column",
         justifyContent: "flex-end",
         alignItems: "center",
         alignContent: 'center',
-        alignSelf: 'flex-end'
+        alignSelf: 'flex-end',
+        marginTop: 10,
     },
     getCoordsText: {
         opacity: 0.7,

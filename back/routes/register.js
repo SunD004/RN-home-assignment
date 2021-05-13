@@ -2,14 +2,14 @@ var express = require('express');
 var router = express.Router();
 var lodash = require('lodash');
 var sha256 = require('sha256')
+
 var tableUsers = require('../models/users')
 
-router.post('/', async function (req, res, next) {
+router.post('/', async function (req, res) {
   try {
     const user = await tableUsers.find({
       email: req.body.email,
     });
-    console.log('register body=', req.body)
     if (lodash.isEmpty(user)) {
       const ret = await tableUsers.create({
         email: req.body.email,

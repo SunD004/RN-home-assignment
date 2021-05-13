@@ -5,13 +5,12 @@ var sha256 = require('sha256')
 
 var tableUsers = require('../models/users')
 
-router.post('/', async function (req, res, next) {
+router.post('/', async function (req, res) {
   try {
     const user = await tableUsers.findOne({
       username: req.body.username,
       password: sha256(req.body.password)
     });
-    console.log('login user found=', user)
     if (lodash.isEmpty(user))
       res.sendStatus(404)
     else res.send(user._id)

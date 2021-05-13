@@ -34,7 +34,6 @@ export default function LoginScreen({ navigation }) {
             let userId
             await axios.post(`${API_URL}login`, { username: state.username, password: state.password })
                 .then(res => {
-                    console.log(res.data);
                     userId = res.data
                 })
             await AsyncStorage.setItem('user', JSON.stringify(userId))

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, ActivityIndicator, Text, StyleSheet } from "react-native";
 
-const Loading = ({ wasOff }) => {
+const Loading = ({ wasOff, normal }) => {
     return (
         <View style={{ flex: 1, justifyContent: "center", flexDirection: 'column', alignContent: 'center' }}>
             <ActivityIndicator size="large" color="black" />
@@ -9,7 +9,7 @@ const Loading = ({ wasOff }) => {
                 <View style={{ marginVertical: 20 }}>
                     <Text style={styles.text}>Your location was off </Text>
                     <Text style={styles.text}>Press 'Update' for get your location</Text></View>}
-            {!wasOff && <View style={{ marginVertical: 20 }}>
+            {!wasOff && !normal && <View style={{ marginVertical: 20 }}>
                 <Text style={styles.text}>We getting your position... </Text>
             </View>}
         </View>
