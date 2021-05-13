@@ -15,10 +15,7 @@ router.post('/', async function (req, res) {
         if (recipe !== null) {
           return res.status(200).send(JSON.parse(recipe))
         } else {
-          let error = false
           const ret = await axios.get(`${WEATHER_URL}weather?q=${req.body.search}&appid=${WHEATHER_KEY}&units=metric`)
-          if (error)
-            return
           if (ret.data.coord === null) {
             return res.status(400).send({ message: 'Failed to fetch weather, try again' })
           } else {
